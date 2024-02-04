@@ -66,4 +66,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //Navigation
+    val navigation_version = "2.7.6"
+    implementation("androidx.navigation:navigation-compose:$navigation_version")
+    implementation("androidx.navigation:navigation-runtime-ktx:$navigation_version")
 }

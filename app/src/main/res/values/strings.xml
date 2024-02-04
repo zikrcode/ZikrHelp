@@ -1,3 +1,12 @@
 <resources>
+
     <string name="app_name">ZikrHelp</string>
+
+    <!-- MainModalDrawer -->
+    <string name="open_ai">Open AI</string>
+    <string name="ml_kit">ML Kit</string>
+
+    <!-- OpenAIScreen -->
+    <string name="open_drawer">Open Drawer</string>
+
 </resources>
