@@ -84,24 +84,6 @@ private fun DrawerSheetContent(
     )
     NavigationDrawerItem(
         label = {
-            Text(text = stringResource(R.string.open_ai))
-        },
-        selected = currentRoute == Screen.OPEN_AI_SCREEN.route,
-        onClick = {
-            navigateToOpenAI()
-            closeDrawer()
-        },
-        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-        icon = {
-            Icon(
-                painter = painterResource(R.drawable.ic_open_ai),
-                contentDescription = null,
-                modifier = Modifier.size(Dimens.SpacingTriple),
-            )
-        }
-    )
-    NavigationDrawerItem(
-        label = {
             Text(text = stringResource(R.string.ml_kit))
         },
         selected = currentRoute == Screen.ML_KIT_SCREEN.route,
@@ -113,6 +95,24 @@ private fun DrawerSheetContent(
         icon = {
             Icon(
                 painter = painterResource(R.drawable.ic_ml_kit),
+                contentDescription = null,
+                modifier = Modifier.size(Dimens.SpacingTriple),
+            )
+        }
+    )
+    NavigationDrawerItem(
+        label = {
+            Text(text = stringResource(R.string.open_ai))
+        },
+        selected = currentRoute == Screen.OPEN_AI_SCREEN.route,
+        onClick = {
+            navigateToOpenAI()
+            closeDrawer()
+        },
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+        icon = {
+            Icon(
+                painter = painterResource(R.drawable.ic_open_ai),
                 contentDescription = null,
                 modifier = Modifier.size(Dimens.SpacingTriple),
             )

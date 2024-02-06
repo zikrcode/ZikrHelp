@@ -1,6 +1,12 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
+    //KotlinSymbolProcessing
+    id("com.google.devtools.ksp")
+
+    //Hilt
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -67,8 +73,26 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    //LifecycleUtilitiesCompose
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+
     //Navigation
     val navigation_version = "2.7.6"
     implementation("androidx.navigation:navigation-compose:$navigation_version")
     implementation("androidx.navigation:navigation-runtime-ktx:$navigation_version")
+
+    //Hilt
+    val dagger_hilt_version = "2.47"
+    implementation("com.google.dagger:hilt-android:$dagger_hilt_version")
+    ksp("com.google.dagger:hilt-android-compiler:$dagger_hilt_version")
+
+    val android_hilt_version = "1.0.0"
+    implementation ("androidx.hilt:hilt-navigation-compose:$android_hilt_version")
+    ksp("androidx.hilt:hilt-compiler:$android_hilt_version")
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //MLKitTextRecognition
+    implementation("com.google.mlkit:text-recognition:16.0.0")
 }

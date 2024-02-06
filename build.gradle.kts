@@ -2,4 +2,10 @@
 plugins {
     id("com.android.application") version "8.2.2" apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+
+    //KotlinSymbolProcessing
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
+
+    //Hilt
+    id("com.google.dagger.hilt.android") version "2.47" apply false
 }

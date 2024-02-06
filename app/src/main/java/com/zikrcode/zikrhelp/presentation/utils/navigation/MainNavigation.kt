@@ -3,14 +3,14 @@ package com.zikrcode.zikrhelp.presentation.utils.navigation
 import androidx.navigation.NavHostController
 
 enum class Screen(val route: String) {
-    OPEN_AI_SCREEN("open_ai"),
-    ML_KIT_SCREEN("ml_kit")
+    ML_KIT_SCREEN("ml_kit"),
+    OPEN_AI_SCREEN("open_ai")
 }
 
 class MainNavigationActions(private val navController: NavHostController) {
 
-    fun navigateToOpenAI() {
-        navController.navigate(Screen.OPEN_AI_SCREEN.route) {
+    fun navigateToMLKit() {
+        navController.navigate(Screen.ML_KIT_SCREEN.route) {
             navController.graph.startDestinationRoute?.let {
                 popUpTo(it) {
                     saveState = true
@@ -21,8 +21,8 @@ class MainNavigationActions(private val navController: NavHostController) {
         }
     }
 
-    fun navigateToMLKit() {
-        navController.navigate(Screen.ML_KIT_SCREEN.route) {
+    fun navigateToOpenAI() {
+        navController.navigate(Screen.OPEN_AI_SCREEN.route) {
             navController.graph.startDestinationRoute?.let {
                 popUpTo(it) {
                     saveState = true

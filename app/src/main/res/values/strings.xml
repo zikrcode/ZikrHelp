@@ -3,10 +3,20 @@
     <string name="app_name">ZikrHelp</string>
 
     <!-- MainModalDrawer -->
-    <string name="open_ai">Open AI</string>
     <string name="ml_kit">ML Kit</string>
+    <string name="open_ai">Open AI</string>
 
-    <!-- OpenAIScreen -->
+    <!-- MlKitScreen -->
     <string name="open_drawer">Open Drawer</string>
+    <string name="detect_text">Detect Text</string>
+
+        <!-- ImageContent -->
+        <string name="take_image">Take Image</string>
+        <string name="select_image">Select Image</string>
+
+        <!-- ResultContent -->
+        <string name="result">Result</string>
+        <string name="copy_result">Copy Result</string>
+        <string name="no_text_detected">No text detected!</string>
 
 </resources>
