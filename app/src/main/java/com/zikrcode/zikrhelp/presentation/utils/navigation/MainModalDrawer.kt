@@ -1,4 +1,4 @@
-package com.zikrcode.zikrhelp.presentation.utils
+package com.zikrcode.zikrhelp.presentation.utils.navigation
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,8 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.zikrcode.zikrhelp.R
-import com.zikrcode.zikrhelp.presentation.utils.navigation.MainNavigationActions
-import com.zikrcode.zikrhelp.presentation.utils.navigation.Screen
+import com.zikrcode.zikrhelp.presentation.utils.Dimens
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

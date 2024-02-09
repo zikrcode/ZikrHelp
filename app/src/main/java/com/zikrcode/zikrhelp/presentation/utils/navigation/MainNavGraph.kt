@@ -13,7 +13,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.zikrcode.zikrhelp.presentation.ml_kit.MLKitScreen
 import com.zikrcode.zikrhelp.presentation.open_ai.OpenAIScreen
-import com.zikrcode.zikrhelp.presentation.utils.MainModalDrawer
 import kotlinx.coroutines.launch
 
 @Composable

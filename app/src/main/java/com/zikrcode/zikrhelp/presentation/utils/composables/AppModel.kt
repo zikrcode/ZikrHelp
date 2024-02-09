@@ -1,4 +1,4 @@
-package com.zikrcode.zikrhelp.presentation.utils
+package com.zikrcode.zikrhelp.presentation.utils.composables
 
 sealed interface AppModel {
     val value: String

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.zikrcode.zikrhelp.R
 import com.zikrcode.zikrhelp.presentation.utils.Dimens
-import com.zikrcode.zikrhelp.presentation.utils.keyboardAsState
+import com.zikrcode.zikrhelp.presentation.utils.composables.keyboardAsState
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 
 @Composable

@@ -39,10 +39,10 @@ import com.google.mlkit.vision.common.InputImage
 import com.zikrcode.zikrhelp.R
 import com.zikrcode.zikrhelp.presentation.ml_kit.components.ImageContent
 import com.zikrcode.zikrhelp.presentation.ml_kit.components.ResultContent
-import com.zikrcode.zikrhelp.presentation.utils.AppDropdownMenu
-import com.zikrcode.zikrhelp.presentation.utils.AppModel
+import com.zikrcode.zikrhelp.presentation.utils.composables.AppDropdownMenu
+import com.zikrcode.zikrhelp.presentation.utils.composables.AppModel
 import com.zikrcode.zikrhelp.presentation.utils.Dimens
-import com.zikrcode.zikrhelp.presentation.utils.MLKitModel
+import com.zikrcode.zikrhelp.presentation.utils.composables.MLKitModel
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 
 @Composable
