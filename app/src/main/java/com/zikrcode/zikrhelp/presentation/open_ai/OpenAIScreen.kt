@@ -154,7 +154,7 @@ private fun OpenAIContent(
                         imageUri = imageUri,
                         onImageSelect = onImageSelect
                     )
-                    Spacer(Modifier.height(Dimens.SpacingSingleHalf))
+                    Spacer(Modifier.height(Dimens.SpacingSingle))
                 }
                 MessageContent(
                     message = message,
