@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.zikrcode.zikrhelp.R
-import com.zikrcode.zikrhelp.presentation.utils.Dimens
+import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.common.InputImage
-import com.zikrcode.zikrhelp.data.MLKitRepository
+import com.zikrcode.zikrhelp.data.repository.MLKitRepository
 import com.zikrcode.zikrhelp.presentation.utils.composables.AppModel
 import com.zikrcode.zikrhelp.presentation.utils.composables.MLKitModel
 import dagger.hilt.android.lifecycle.HiltViewModel

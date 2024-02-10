@@ -1,4 +1,4 @@
-package com.zikrcode.zikrhelp.presentation.ml_kit.components
+package com.zikrcode.zikrhelp.presentation.utils.composables
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.zikrcode.zikrhelp.R
-import com.zikrcode.zikrhelp.presentation.utils.Dimens
+import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.provider.MainFileProvider
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 

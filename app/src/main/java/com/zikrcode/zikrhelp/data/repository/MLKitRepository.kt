@@ -1,4 +1,4 @@
-package com.zikrcode.zikrhelp.data
+package com.zikrcode.zikrhelp.data.repository
 
 import com.google.mlkit.vision.common.InputImage
 import com.zikrcode.zikrhelp.data.data_source.MLKitDataSource

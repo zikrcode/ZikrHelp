@@ -8,4 +8,7 @@ plugins {
 
     //Hilt
     id("com.google.dagger.hilt.android") version "2.47" apply false
+
+    //Serialization
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10" apply false
 }

@@ -19,4 +19,10 @@
         <string name="copy_result">Copy Result</string>
         <string name="no_text_detected">No text detected!</string>
 
+    <!-- OpenAIScreen -->
+
+        <!-- MessageContent -->
+        <string name="message">Message</string>
+        <string name="send_message">Send Message</string>
+
 </resources>

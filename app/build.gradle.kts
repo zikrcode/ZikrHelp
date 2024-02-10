@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,7 +9,15 @@ plugins {
 
     //Hilt
     id("dagger.hilt.android.plugin")
+
+    //Serialization
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
+
+//Secret
+val secretPropertiesFile = project.rootProject.file("secret.properties")
+val secretProperties = Properties()
+secretProperties.load(secretPropertiesFile.inputStream())
 
 android {
     namespace = "com.zikrcode.zikrhelp"
@@ -24,6 +34,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        //Secret
+        buildConfigField(
+            "String",
+            "OPEN_AI_API_KEY",
+            "\"${secretProperties["OPEN_AI_API_KEY"]}\""
+        )
     }
 
     buildTypes {
@@ -44,9 +61,10 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -95,4 +113,10 @@ dependencies {
 
     //MLKitTextRecognition
     implementation("com.google.mlkit:text-recognition:16.0.0")
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    //Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }

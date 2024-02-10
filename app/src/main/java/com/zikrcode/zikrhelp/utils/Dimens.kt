@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zikrcode.zikrhelp.presentation.utils
+package com.zikrcode.zikrhelp.utils
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

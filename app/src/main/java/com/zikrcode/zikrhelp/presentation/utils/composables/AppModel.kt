@@ -10,6 +10,6 @@ enum class MLKitModel(override val value: String) : AppModel {
 }
 
 enum class OpenAIModel(override val value: String) : AppModel {
-    GPT_4_VISION_PREVIEW("GPT-4 Vision Preview"),
-    GPT_4_TEXT_GENERATION("GPT-4 Text Generation")
+    GPT_4("GPT-4"),
+    GPT_4_VISION_PREVIEW("GPT-4 Vision Preview")
 }

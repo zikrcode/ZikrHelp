@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -37,11 +39,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.mlkit.vision.common.InputImage
 import com.zikrcode.zikrhelp.R
-import com.zikrcode.zikrhelp.presentation.ml_kit.components.ImageContent
-import com.zikrcode.zikrhelp.presentation.ml_kit.components.ResultContent
+import com.zikrcode.zikrhelp.presentation.utils.composables.ImageContent
+import com.zikrcode.zikrhelp.presentation.utils.composables.ResultContent
 import com.zikrcode.zikrhelp.presentation.utils.composables.AppDropdownMenu
 import com.zikrcode.zikrhelp.presentation.utils.composables.AppModel
-import com.zikrcode.zikrhelp.presentation.utils.Dimens
+import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.presentation.utils.composables.MLKitModel
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 
@@ -153,7 +155,8 @@ private fun MLKitContent(
                     ResultContent(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = Dimens.SpacingSingle),
+                            .padding(vertical = Dimens.SpacingSingle)
+                            .windowInsetsPadding(WindowInsets.navigationBars),
                         result = result,
                         onResultChange = onResultChange
                     )

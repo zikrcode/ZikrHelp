@@ -44,9 +44,11 @@ fun MainNavGraph(modifier: Modifier = Modifier) {
         }
         composable(route = Screen.OPEN_AI_SCREEN.route) {
             MainModalDrawer(drawerState, currentRoute, navActions) {
-                OpenAIScreen {
-                    coroutineScope.launch { drawerState.open() }
-                }
+                OpenAIScreen(
+                    openDrawer = {
+                        coroutineScope.launch { drawerState.open() }
+                    }
+                )
             }
         }
     }

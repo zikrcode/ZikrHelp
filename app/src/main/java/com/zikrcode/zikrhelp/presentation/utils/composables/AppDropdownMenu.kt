@@ -2,6 +2,7 @@ package com.zikrcode.zikrhelp.presentation.utils.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zikrcode.zikrhelp.R
-import com.zikrcode.zikrhelp.presentation.utils.Dimens
+import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 
 @Composable
@@ -39,7 +40,7 @@ fun AppDropdownMenu(
 
     Row(
         modifier = Modifier
-            .width(200.dp)
+            .width(220.dp)
             .clip(CircleShape)
             .clickable { expanded = !expanded }
             .background(MaterialTheme.colorScheme.primaryContainer)
@@ -51,24 +52,26 @@ fun AppDropdownMenu(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center
         )
-        Icon(
-            painter = painterResource(
-                if (expanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
-            ),
-            contentDescription = null
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = !expanded }
-        ) {
-            models.forEach { model ->
-                DropdownMenuItem(
-                    text = { Text(text = model.value) },
-                    onClick = {
-                        expanded = !expanded
-                        onModelSelect(model)
-                    }
-                )
+        Box {
+            Icon(
+                painter = painterResource(
+                    if (expanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
+                ),
+                contentDescription = null
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = !expanded }
+            ) {
+                models.forEach { model ->
+                    DropdownMenuItem(
+                        text = { Text(text = model.value) },
+                        onClick = {
+                            expanded = !expanded
+                            onModelSelect(model)
+                        }
+                    )
+                }
             }
         }
     }

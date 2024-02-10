@@ -4,7 +4,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.zikrcode.zikrhelp.presentation.utils.AppConstants.LINE_SEPARATOR
+import com.zikrcode.zikrhelp.utils.AppConstants.LINE_SEPARATOR
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
