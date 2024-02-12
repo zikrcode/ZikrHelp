@@ -5,6 +5,8 @@
     <!-- MainModalDrawer -->
     <string name="ml_kit">ML Kit</string>
     <string name="open_ai">Open AI</string>
+    <string name="developed_by">Developed by</string>
+    <string name="open_url_with">Open URL with</string>
 
     <!-- MlKitScreen -->
     <string name="open_drawer">Open Drawer</string>
