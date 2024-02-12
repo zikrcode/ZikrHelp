@@ -1,10 +1,19 @@
 package com.zikrcode.zikrhelp.presentation.utils.navigation
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,14 +24,20 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.zikrcode.zikrhelp.R
 import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
+import com.zikrcode.zikrhelp.utils.AppConstants.ZIKRCODE_URL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -117,6 +132,12 @@ private fun DrawerSheetContent(
             )
         }
     )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        ZikrCodeLogo()
+    }
 }
 
 @Composable
@@ -130,5 +151,34 @@ private fun ZikrHelpLogo(modifier: Modifier = Modifier) {
         )
         Spacer(Modifier.width(Dimens.SpacingSingle))
         Text(text = stringResource(R.string.app_name))
+    }
+}
+
+@Composable
+private fun ZikrCodeLogo() {
+    val context = LocalContext.current
+    val chooserTitle = stringResource(R.string.open_url_with)
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Divider()
+        Spacer(Modifier.height(Dimens.SpacingDouble))
+        Text(
+            text = stringResource(R.string.developed_by),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Icon(
+            painter = painterResource(R.drawable.zikrcode_logo),
+            contentDescription = null,
+            modifier = Modifier
+                .width(150.dp)
+                .clip(RoundedCornerShape(Dimens.CornerRadiusSingleHalf))
+                .clickable {
+                    val uri = Uri.parse(ZIKRCODE_URL)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    val chooser = Intent.createChooser(intent, chooserTitle)
+                    context.startActivity(chooser)
+                },
+            tint = Color.Unspecified
+        )
     }
 }
