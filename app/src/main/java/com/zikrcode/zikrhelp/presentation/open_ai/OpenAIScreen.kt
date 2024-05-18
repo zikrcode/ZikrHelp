@@ -61,7 +61,6 @@ import com.zikrcode.zikrhelp.presentation.utils.composables.ImageContent
 import com.zikrcode.zikrhelp.presentation.utils.composables.ResultContent
 import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.presentation.utils.composables.AppDropdownMenu
-import com.zikrcode.zikrhelp.presentation.utils.composables.AppModel
 import com.zikrcode.zikrhelp.presentation.utils.composables.OpenAIModel
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 import java.io.ByteArrayOutputStream
@@ -76,7 +75,7 @@ fun OpenAIScreen(
 
     OpenAIContent(
         openDrawer = openDrawer,
-        actionModel = uiState.openAIModel,
+        model = uiState.model,
         onActionModelSelect = viewModel::modelSelected,
         loading = uiState.isLoading,
         imageUri = uiState.imageUri,
@@ -100,7 +99,7 @@ fun OpenAIScreenPreview() {
     ZikrHelpTheme {
         OpenAIContent(
             openDrawer = { },
-            actionModel = OpenAIModel.GPT_4,
+            model = OpenAIModel.GPT_4,
             onActionModelSelect = { },
             loading = false,
             imageUri = null,
@@ -118,8 +117,8 @@ fun OpenAIScreenPreview() {
 @Composable
 private fun OpenAIContent(
     openDrawer: () -> Unit,
-    actionModel: AppModel,
-    onActionModelSelect: (AppModel) -> Unit,
+    model: OpenAIModel,
+    onActionModelSelect: (OpenAIModel) -> Unit,
     loading: Boolean,
     imageUri: Uri?,
     onImageSelect: (Uri) -> Unit,
@@ -130,14 +129,12 @@ private fun OpenAIContent(
     result: String?,
     onResultChange: (String) -> Unit
 ) {
-    val context = LocalContext.current
-
     Scaffold(
         modifier = Modifier.imePadding(),
         topBar = {
             OpenAITopAppBar(
                 openDrawer = openDrawer,
-                actionModel = actionModel,
+                actionModel = model,
                 onActionModelSelect = onActionModelSelect
             )
         },
@@ -164,30 +161,29 @@ private fun OpenAIContent(
                     .padding(Dimens.SpacingDouble)
                     .verticalScroll(rememberScrollState())
             ) {
-                if (actionModel == OpenAIModel.GPT_4_VISION_PREVIEW) {
-                    ImageContent(
-                        modifier = Modifier.fillMaxWidth(),
-                        imageUri = imageUri,
-                        onImageSelect = onImageSelect
-                    )
-                    Spacer(Modifier.height(Dimens.SpacingSingle))
-                }
-                MessageContent(
-                    message = message,
-                    onMessageChange = onMessageChange
-                ) {
-                    val encodedImage = imageUri?.let { encodeImageToBase64(context, it) }
-                    onSendMessage(encodedImage)
-                }
-                if (resultAvailable) {
-                    ResultContent(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = Dimens.SpacingSingle)
-                            .windowInsetsPadding(WindowInsets.navigationBars),
-                        result = result,
-                        onResultChange = onResultChange
-                    )
+                when (model) {
+                    OpenAIModel.GPT_4 -> {
+                        OpenAIModelGPT4Layout(
+                            message = message,
+                            onMessageChange = onMessageChange,
+                            onSendMessage = onSendMessage,
+                            resultAvailable = resultAvailable,
+                            result = result,
+                            onResultChange = onResultChange
+                        )
+                    }
+                    OpenAIModel.GPT_4_VISION_PREVIEW -> {
+                        OpenAIModelGPT4VisionPreviewLayout(
+                            imageUri = imageUri,
+                            onImageSelect = onImageSelect,
+                            message = message,
+                            onMessageChange = onMessageChange,
+                            onSendMessage = onSendMessage,
+                            resultAvailable = resultAvailable,
+                            result = result,
+                            onResultChange = onResultChange
+                        )
+                    }
                 }
             }
         }
@@ -198,8 +194,8 @@ private fun OpenAIContent(
 @Composable
 private fun OpenAITopAppBar(
     openDrawer: () -> Unit,
-    actionModel: AppModel,
-    onActionModelSelect: (AppModel) -> Unit
+    actionModel: OpenAIModel,
+    onActionModelSelect: (OpenAIModel) -> Unit
 ) {
     val openAIModels = OpenAIModel.entries.toList()
 
@@ -225,6 +221,71 @@ private fun OpenAITopAppBar(
             Spacer(Modifier.width(Dimens.SpacingSingleHalf))
         }
     )
+}
+
+@Composable
+private fun OpenAIModelGPT4Layout(
+    message: String,
+    onMessageChange: (String) -> Unit,
+    onSendMessage: (String?) -> Unit,
+    resultAvailable: Boolean,
+    result: String?,
+    onResultChange: (String) -> Unit
+) {
+    MessageContent(
+        message = message,
+        onMessageChange = onMessageChange
+    ) {
+        onSendMessage(null)
+    }
+    if (resultAvailable) {
+        ResultContent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = Dimens.SpacingSingle)
+                .windowInsetsPadding(WindowInsets.navigationBars),
+            result = result,
+            onResultChange = onResultChange
+        )
+    }
+}
+
+@Composable
+private fun OpenAIModelGPT4VisionPreviewLayout(
+    imageUri: Uri?,
+    onImageSelect: (Uri) -> Unit,
+    message: String,
+    onMessageChange: (String) -> Unit,
+    onSendMessage: (String?) -> Unit,
+    resultAvailable: Boolean,
+    result: String?,
+    onResultChange: (String) -> Unit
+) {
+    val context = LocalContext.current
+
+    ImageContent(
+        modifier = Modifier.fillMaxWidth(),
+        imageUri = imageUri,
+        onImageSelect = onImageSelect
+    )
+    Spacer(Modifier.height(Dimens.SpacingSingle))
+    MessageContent(
+        message = message,
+        onMessageChange = onMessageChange
+    ) {
+        val encodedImage = imageUri?.let { encodeImageToBase64(context, it) }
+        onSendMessage(encodedImage)
+    }
+    if (resultAvailable) {
+        ResultContent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = Dimens.SpacingSingle)
+                .windowInsetsPadding(WindowInsets.navigationBars),
+            result = result,
+            onResultChange = onResultChange
+        )
+    }
 }
 
 private fun encodeImageToBase64(context: Context, imageUri: Uri): String? {

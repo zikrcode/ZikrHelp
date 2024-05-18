@@ -20,5 +20,6 @@ object AppConstants {
     const val ZIKRCODE_URL = "https://zikrcode.com/"
     const val MAX_TIMEOUT = 60L
     const val LINE_SEPARATOR = "\n"
-    const val OPEN_AI_URL = "https://api.openai.com/v1/chat/completions"
+    const val CONTENT_TYPE = "application/json; charset=UTF8"
+    const val OPEN_AI_BASE_URL = "https://api.openai.com/v1/"
 }

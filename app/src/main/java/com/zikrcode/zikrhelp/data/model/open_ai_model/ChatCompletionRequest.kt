@@ -25,7 +25,7 @@ import kotlinx.serialization.json.jsonObject
 
 //Request
 @Serializable
-data class OpenAIRequest(
+data class ChatCompletionRequest(
     val model: Model,
     val messages: List<Message>,
     @SerialName("max_tokens") val maxTokens: Int

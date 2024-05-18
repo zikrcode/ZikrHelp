@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package com.zikrcode.zikrhelp.data.repository
+package com.zikrcode.zikrhelp.data.data_source
 
-import com.zikrcode.zikrhelp.data.data_source.OpenAIDataSource
-import com.zikrcode.zikrhelp.data.model.open_ai_model.ChatCompletionRequest
-import javax.inject.Inject
+sealed class ApiResponse<out T> {
 
-class OpenAIRepository @Inject constructor(
-    private val dataSource: OpenAIDataSource
-) {
+    data class Success<out T>(val data: T) : ApiResponse<T>()
 
-    suspend fun completeChat(chatCompletionRequest: ChatCompletionRequest) =
-        dataSource.completeChat(chatCompletionRequest)
+    data class Error(val exception: Exception) : ApiResponse<Nothing>()
 }

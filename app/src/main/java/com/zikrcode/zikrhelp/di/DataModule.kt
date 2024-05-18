@@ -16,12 +16,21 @@
 
 package com.zikrcode.zikrhelp.di
 
+import com.zikrcode.zikrhelp.BuildConfig
+import com.zikrcode.zikrhelp.data.data_source.OpenAIService
+import com.zikrcode.zikrhelp.utils.AppConstants.CONTENT_TYPE
 import com.zikrcode.zikrhelp.utils.AppConstants.MAX_TIMEOUT
+import com.zikrcode.zikrhelp.utils.AppConstants.OPEN_AI_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -32,10 +41,43 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
+        val interceptor = Interceptor { chain ->
+            val originalRequest = chain.request()
+            val request = originalRequest.newBuilder()
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer ${BuildConfig.OPEN_AI_API_KEY}")
+                .build()
+
+
+            chain.proceed(request)
+        }
+
         return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
             .connectTimeout(MAX_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(MAX_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(MAX_TIMEOUT, TimeUnit.SECONDS)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val json = Json {
+            ignoreUnknownKeys = true
+        }
+        val mediaType = CONTENT_TYPE.toMediaType()
+
+        return Retrofit.Builder()
+            .baseUrl(OPEN_AI_BASE_URL)
+            .addConverterFactory(json.asConverterFactory(mediaType))
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideService(retrofit: Retrofit): OpenAIService {
+        return retrofit.create(OpenAIService::class.java)
     }
 }

@@ -19,15 +19,15 @@ package com.zikrcode.zikrhelp.presentation.open_ai
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zikrcode.zikrhelp.data.data_source.ApiResponse
+import com.zikrcode.zikrhelp.data.model.open_ai_model.ChatCompletionRequest
 import com.zikrcode.zikrhelp.data.model.open_ai_model.DefaultMessage
 import com.zikrcode.zikrhelp.data.model.open_ai_model.Model
-import com.zikrcode.zikrhelp.data.model.open_ai_model.OpenAIRequest
 import com.zikrcode.zikrhelp.data.model.open_ai_model.Role
 import com.zikrcode.zikrhelp.data.model.open_ai_model.VisionContent
 import com.zikrcode.zikrhelp.data.model.open_ai_model.VisionContentType
 import com.zikrcode.zikrhelp.data.model.open_ai_model.VisionMessage
 import com.zikrcode.zikrhelp.data.repository.OpenAIRepository
-import com.zikrcode.zikrhelp.presentation.utils.composables.AppModel
 import com.zikrcode.zikrhelp.presentation.utils.composables.OpenAIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class OpenAIUiState(
-    val openAIModel: AppModel = OpenAIModel.GPT_4,
+    val model: OpenAIModel = OpenAIModel.GPT_4,
     val isLoading: Boolean = false,
     val imageUri: Uri? = null,
     val message: String = "",
@@ -53,9 +53,9 @@ class OpenAIViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(OpenAIUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun modelSelected(model: AppModel) {
+    fun modelSelected(model: OpenAIModel) {
         _uiState.update {
-            it.copy(openAIModel = model)
+            it.copy(model = model)
         }
     }
 
@@ -81,54 +81,76 @@ class OpenAIViewModel @Inject constructor(
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            when (_uiState.value.openAIModel) {
+            when (_uiState.value.model) {
                 OpenAIModel.GPT_4 -> {
-                    val messages = listOf(
-                        DefaultMessage(
-                            role = Role.USER,
-                            content = _uiState.value.message
-                        )
-                    )
-                    val openAIRequest = OpenAIRequest(
-                        model = Model.GPT_4,
-                        messages = messages,
-                        maxTokens = 4096
-                    )
-                    val openAIResult = repository.completeMessage(openAIRequest)
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            isResultAvailable = true,
-                            result = openAIResult?.choices?.firstOrNull()?.message?.content
-                        )
-                    }
+                    chatCompletionGPT4()
                 }
                 OpenAIModel.GPT_4_VISION_PREVIEW -> {
-                    val content = listOf(
-                        VisionContent(type = VisionContentType.TEXT, text = _uiState.value.message),
-                        VisionContent(type = VisionContentType.IMAGE_URL, imageUrl = "data:image/jpeg;base64,$encodedImage")
-                    )
-                    val messages = listOf(
-                        VisionMessage(
-                            role = Role.USER,
-                            content = content
-                        )
-                    )
-                    val openAIRequest = OpenAIRequest(
-                        model = Model.GPT_4_VISION_PREVIEW,
-                        messages = messages,
-                        maxTokens = 4096
-                    )
-                    val openAIResult = repository.completeMessage(openAIRequest)
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            isResultAvailable = true,
-                            result = openAIResult?.choices?.firstOrNull()?.message?.content
-                        )
-                    }
+                    chatCompletionGPT4VisionPreview(encodedImage)
                 }
-                else -> { }
+            }
+        }
+    }
+
+    private suspend fun chatCompletionGPT4() {
+        val messages = listOf(
+            DefaultMessage(
+                role = Role.USER,
+                content = _uiState.value.message
+            )
+        )
+        val request = ChatCompletionRequest(
+            model = Model.GPT_4,
+            messages = messages,
+            maxTokens = 4096
+        )
+        when (val result = repository.completeChat(request)) {
+            is ApiResponse.Error -> {
+                TODO()
+            }
+            is ApiResponse.Success -> {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isResultAvailable = true,
+                        result = result.data.choices.first().message.content
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun chatCompletionGPT4VisionPreview(encodedImage: String?) {
+        val content = listOf(
+            VisionContent(type = VisionContentType.TEXT, text = _uiState.value.message),
+            VisionContent(
+                type = VisionContentType.IMAGE_URL,
+                imageUrl = "data:image/jpeg;base64,$encodedImage"
+            )
+        )
+        val messages = listOf(
+            VisionMessage(
+                role = Role.USER,
+                content = content
+            )
+        )
+        val request = ChatCompletionRequest(
+            model = Model.GPT_4_VISION_PREVIEW,
+            messages = messages,
+            maxTokens = 4096
+        )
+        when (val result = repository.completeChat(request)) {
+            is ApiResponse.Error -> {
+                TODO()
+            }
+            is ApiResponse.Success -> {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isResultAvailable = true,
+                        result = result.data.choices.first().message.content
+                    )
+                }
             }
         }
     }

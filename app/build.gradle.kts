@@ -140,9 +140,15 @@ dependencies {
     //MLKitTextRecognition
     implementation("com.google.mlkit:text-recognition:16.0.0")
 
-    //OkHttp
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.10.0")
 
-    //Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    //SerializationJson
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    //RetrofitConverter
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.10.0")
+
+    //OkHttpLoggingInterceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }

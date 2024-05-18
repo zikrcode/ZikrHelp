@@ -45,10 +45,10 @@ import com.zikrcode.zikrhelp.utils.Dimens
 import com.zikrcode.zikrhelp.ui.theme.ZikrHelpTheme
 
 @Composable
-fun AppDropdownMenu(
-    models: List<AppModel>,
-    selectedModel: AppModel,
-    onModelSelect: (AppModel) -> Unit
+fun <T : AppModel> AppDropdownMenu(
+    models: List<T>,
+    selectedModel: T,
+    onModelSelect: (T) -> Unit
 ) {
     var expanded by rememberSaveable {
         mutableStateOf(false)
