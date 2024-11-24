@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.zikrcode.zikrhelp.data.data_source.ApiResponse
 import com.zikrcode.zikrhelp.data.model.open_ai_model.ChatCompletionRequest
 import com.zikrcode.zikrhelp.data.model.open_ai_model.DefaultMessage
+import com.zikrcode.zikrhelp.data.model.open_ai_model.ImageUrl
 import com.zikrcode.zikrhelp.data.model.open_ai_model.Model
 import com.zikrcode.zikrhelp.data.model.open_ai_model.Role
 import com.zikrcode.zikrhelp.data.model.open_ai_model.VisionContent
@@ -37,7 +38,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class OpenAIUiState(
-    val model: OpenAIModel = OpenAIModel.GPT_4,
+    val model: OpenAIModel = OpenAIModel.GPT_4O,
     val isLoading: Boolean = false,
     val imageUri: Uri? = null,
     val message: String = "",
@@ -82,17 +83,29 @@ class OpenAIViewModel @Inject constructor(
         }
         viewModelScope.launch {
             when (_uiState.value.model) {
-                OpenAIModel.GPT_4 -> {
-                    chatCompletionGPT4()
+                OpenAIModel.GPT_4O -> {
+                    chatCompletion(model = Model.GPT_4O)
                 }
-                OpenAIModel.GPT_4_VISION_PREVIEW -> {
-                    chatCompletionGPT4VisionPreview(encodedImage)
+                OpenAIModel.GPT_4O_VISION -> {
+                    chatCompletionVision(encodedImage = encodedImage, model = Model.GPT_4O)
+                }
+                OpenAIModel.GPT_4O_MINI -> {
+                    chatCompletion(model = Model.GPT_4O_MINI)
+                }
+                OpenAIModel.GPT_4O_MINI_VISION -> {
+                    chatCompletionVision(encodedImage = encodedImage, model = Model.GPT_4O_MINI)
+                }
+                OpenAIModel.O1_PREVIEW -> {
+                    chatCompletion(model = Model.O1_PREVIEW)
+                }
+                OpenAIModel.O1_MINI -> {
+                    chatCompletion(model = Model.O1_MINI)
                 }
             }
         }
     }
 
-    private suspend fun chatCompletionGPT4() {
+    private suspend fun chatCompletion(model: Model) {
         val messages = listOf(
             DefaultMessage(
                 role = Role.USER,
@@ -100,9 +113,8 @@ class OpenAIViewModel @Inject constructor(
             )
         )
         val request = ChatCompletionRequest(
-            model = Model.GPT_4,
-            messages = messages,
-            maxTokens = 4096
+            model = model,
+            messages = messages
         )
         when (val result = repository.completeChat(request)) {
             is ApiResponse.Error -> {
@@ -120,12 +132,18 @@ class OpenAIViewModel @Inject constructor(
         }
     }
 
-    private suspend fun chatCompletionGPT4VisionPreview(encodedImage: String?) {
+    private suspend fun chatCompletionVision(
+        encodedImage: String?,
+        model: Model
+    ) {
         val content = listOf(
-            VisionContent(type = VisionContentType.TEXT, text = _uiState.value.message),
+            VisionContent(
+                type = VisionContentType.TEXT,
+                text = _uiState.value.message
+            ),
             VisionContent(
                 type = VisionContentType.IMAGE_URL,
-                imageUrl = "data:image/jpeg;base64,$encodedImage"
+                imageUrl = ImageUrl(url = "data:image/jpeg;base64,$encodedImage")
             )
         )
         val messages = listOf(
@@ -135,9 +153,8 @@ class OpenAIViewModel @Inject constructor(
             )
         )
         val request = ChatCompletionRequest(
-            model = Model.GPT_4_VISION_PREVIEW,
-            messages = messages,
-            maxTokens = 4096
+            model = model,
+            messages = messages
         )
         when (val result = repository.completeChat(request)) {
             is ApiResponse.Error -> {

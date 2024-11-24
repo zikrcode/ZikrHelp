@@ -99,7 +99,7 @@ fun OpenAIScreenPreview() {
     ZikrHelpTheme {
         OpenAIContent(
             openDrawer = { },
-            model = OpenAIModel.GPT_4,
+            model = OpenAIModel.GPT_4O,
             onActionModelSelect = { },
             loading = false,
             imageUri = null,
@@ -162,8 +162,11 @@ private fun OpenAIContent(
                     .verticalScroll(rememberScrollState())
             ) {
                 when (model) {
-                    OpenAIModel.GPT_4 -> {
-                        OpenAIModelGPT4Layout(
+                    OpenAIModel.GPT_4O,
+                    OpenAIModel.GPT_4O_MINI,
+                    OpenAIModel.O1_PREVIEW,
+                    OpenAIModel.O1_MINI -> {
+                        MessageLayout(
                             message = message,
                             onMessageChange = onMessageChange,
                             onSendMessage = onSendMessage,
@@ -172,8 +175,10 @@ private fun OpenAIContent(
                             onResultChange = onResultChange
                         )
                     }
-                    OpenAIModel.GPT_4_VISION_PREVIEW -> {
-                        OpenAIModelGPT4VisionPreviewLayout(
+
+                    OpenAIModel.GPT_4O_VISION,
+                    OpenAIModel.GPT_4O_MINI_VISION -> {
+                        VisionLayout(
                             imageUri = imageUri,
                             onImageSelect = onImageSelect,
                             message = message,
@@ -224,7 +229,7 @@ private fun OpenAITopAppBar(
 }
 
 @Composable
-private fun OpenAIModelGPT4Layout(
+private fun MessageLayout(
     message: String,
     onMessageChange: (String) -> Unit,
     onSendMessage: (String?) -> Unit,
@@ -251,7 +256,7 @@ private fun OpenAIModelGPT4Layout(
 }
 
 @Composable
-private fun OpenAIModelGPT4VisionPreviewLayout(
+private fun VisionLayout(
     imageUri: Uri?,
     onImageSelect: (Uri) -> Unit,
     message: String,
