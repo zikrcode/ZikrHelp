@@ -28,13 +28,14 @@ import kotlinx.serialization.json.jsonObject
 data class ChatCompletionRequest(
     val model: Model,
     val messages: List<Message>,
-    @SerialName("max_tokens") val maxTokens: Int
 )
 
 @Serializable
 enum class Model {
-    @SerialName("gpt-4") GPT_4,
-    @SerialName("gpt-4-vision-preview") GPT_4_VISION_PREVIEW
+    @SerialName("gpt-4o") GPT_4O,
+    @SerialName("gpt-4o-mini") GPT_4O_MINI,
+    @SerialName("o1-preview") O1_PREVIEW,
+    @SerialName("o1-mini") O1_MINI
 }
 
 //Message
@@ -74,8 +75,11 @@ object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Message::cl
 data class VisionContent(
     val type: VisionContentType,
     val text: String? = null,
-    @SerialName("image_url") var imageUrl: String? = null
+    @SerialName("image_url") val imageUrl: ImageUrl? = null
 )
+
+@Serializable
+data class ImageUrl(val url: String)
 
 @Serializable
 enum class VisionContentType {

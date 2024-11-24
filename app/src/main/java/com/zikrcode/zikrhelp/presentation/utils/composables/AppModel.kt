@@ -26,6 +26,11 @@ enum class MLKitModel(override val value: String) : AppModel {
 }
 
 enum class OpenAIModel(override val value: String) : AppModel {
-    GPT_4("GPT-4"),
-    GPT_4_VISION_PREVIEW("GPT-4 Vision Preview")
+    GPT_4O("GPT-4o"),
+    GPT_4O_VISION("GPT-4o (Vision)"),
+    GPT_4O_MINI("GPT-4o mini"),
+    GPT_4O_MINI_VISION("GPT-4o mini (Vision)"),
+
+    O1_PREVIEW("o1-preview"),
+    O1_MINI("o1-mini"),
 }

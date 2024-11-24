@@ -23,7 +23,6 @@ import kotlinx.serialization.Serializable
 data class ChatCompletionResponse(
     val model: String,
     val choices: List<OpenAIChoice>,
-    val usage: OpenAIUsage
 )
 
 @Serializable
@@ -36,11 +35,4 @@ data class OpenAIChoice(
 data class ChoiceMessage(
     val role: String,
     val content: String
-)
-
-@Serializable
-data class OpenAIUsage(
-    @SerialName("prompt_tokens") val promptTokens: Int,
-    @SerialName("completion_tokens") val completionTokens: Int,
-    @SerialName("total_tokens") val totalTokens: Int
 )
